@@ -2,7 +2,7 @@
 
 const url = "https://petlatkea.dk/2021/hogwarts/students.json";
 const studentList = {};
-
+//template over hvad objecter skal indeholde
 const StudentTemplate = {
   firstName: "",
   middleName: "",
@@ -22,7 +22,7 @@ let filterButtons;
 let sortThis = "sorting";
 window.addEventListener("DOMContentLoaded", init);
 
-//
+//======================her starter vi rigtigt hæ====================================
 
 //henta data fra json og adder evetlistner
 async function init() {
@@ -55,6 +55,8 @@ async function loadJSON() {
   //console.log(studentList.studentJSON);
   prepareObjects(studentJSON);
 }
+
+//===========================================filter her ==========================================
 
 // make good damn filter work
 
@@ -135,7 +137,9 @@ function filterStudents() {
 //
 //
 //
+//=========================================sort her============================================
 //
+
 //sorting start here!!
 
 function selectedSorting(event) {
@@ -229,9 +233,12 @@ function buildList() {
   displayList(currentList);
 }
 
-//good damn filter still not working....fixed it wuhuu
+//============================================sort og filter slut her===============================
 
 // her bliver hver template fyldt ud på den ønskede måde ved hjælp af strings
+
+//
+//====================================== lav indholdet til objectet/templaten her=================================
 
 function prepareObjects(JSONData) {
   console.log("prepare here");
@@ -305,7 +312,7 @@ function prepareObjects(JSONData) {
 
   displayList(allStudents);
 }
-
+//======================================vis objecter her =============================================
 // her vises de forskellige studerende inde i deres små hygge objecter lol
 
 function displayList(displayStudents) {
