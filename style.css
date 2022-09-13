@@ -13,11 +13,27 @@
  }
 
  #filterbuttons {
-
-    display: flex;
-    justify-content: center;
     gap: 30px;
+    display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
 
+ }
+
+
+ select {
+    display: flex;
+    padding: 20px;
+    margin: 20px;
+    border: 3px solid black;
+    border-radius: 10px;
+    background-color: antiquewhite;
+ }
+
+ .sorter {
+    display: flex;
+justify-content: center;
+    
  }
 
  #filter_wrapper {
@@ -53,5 +69,8 @@
     padding: 7px;
     border-radius: 10px;
     background-color:antiquewhite;
-    width: 100%;
+    /* width: 100%; */
+    width: 30%;
+        min-width: 100px;
+        max-width: 120px;
  }

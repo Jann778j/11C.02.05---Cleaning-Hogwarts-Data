@@ -18,6 +18,8 @@ let filter;
 let filteredStudents = [];
 
 let filterButtons;
+
+let sortThis = "sorting";
 window.addEventListener("DOMContentLoaded", init);
 
 //
@@ -30,6 +32,11 @@ async function init() {
 
   filterButtons.forEach((filterbutton) => {
     filterbutton.addEventListener("click", clickFilterButton);
+
+    //looks after changes in the options under #sortingList
+    document.querySelector("#sortingList").onchange = function () {
+      selectedSorting(this.value);
+    };
   });
 
   studentList.studentObjects = [];
@@ -61,8 +68,8 @@ function clickFilterButton(filterButton) {
   displayList(filteredStudents);
 }
 
-function isSlytherin(student) {
-  console.log("isSlytherin");
+function ifStudentSlytherin(student) {
+  console.log("ifStudentSlytherin");
   if (student.house === "Slytherin") {
     return true;
   } else {
@@ -70,8 +77,8 @@ function isSlytherin(student) {
   }
 }
 
-function isHufflepuff(student) {
-  console.log("isHufflepuff");
+function ifStudentHufflepuff(student) {
+  console.log("ifStudentHufflepuff");
   if (student.house === "Hufflepuff") {
     return true;
   } else {
@@ -79,8 +86,8 @@ function isHufflepuff(student) {
   }
 }
 
-function isGryffindor(student) {
-  console.log("isGryffindor");
+function ifStudentGryffindor(student) {
+  console.log("ifStudentGryffindor");
   if (student.house === "Gryffindor") {
     return true;
   } else {
@@ -88,8 +95,8 @@ function isGryffindor(student) {
   }
 }
 
-function isRavenclaw(student) {
-  console.log("isRavenclaw");
+function ifStudentRavenclaw(student) {
+  console.log("ifStudentRavenclaw");
   if (student.house === "Ravenclaw") {
     return true;
   } else {
@@ -97,8 +104,8 @@ function isRavenclaw(student) {
   }
 }
 
-function isAll(student) {
-  console.log("isAll");
+function ifStudentAll(student) {
+  console.log("ifStudentAll");
   if (student) {
     return true;
   } else {
@@ -112,28 +119,117 @@ function filterStudents() {
   filteredStudents = [];
 
   if (filter === "slytherin") {
-    filteredStudents = allStudents.filter(isSlytherin);
+    filteredStudents = allStudents.filter(ifStudentSlytherin);
   } else if (filter === "ravenclaw") {
-    filteredStudents = allStudents.filter(isRavenclaw);
+    filteredStudents = allStudents.filter(ifStudentRavenclaw);
   } else if (filter === "hufflepuff") {
-    filteredStudents = allStudents.filter(isHufflepuff);
+    filteredStudents = allStudents.filter(ifStudentHufflepuff);
   } else if (filter === "gryffindor") {
-    filteredStudents = allStudents.filter(isGryffindor);
+    filteredStudents = allStudents.filter(ifStudentGryffindor);
   } else {
-    filteredStudents = allStudents.filter(isAll);
+    filteredStudents = allStudents.filter(ifStudentAll);
   }
 
   return filteredStudents;
 }
+//
+//
+//
+//
+//sorting start here!!
 
-// function makebuttons() {
-//   console.log("ready");
-//   document
-//     .querySelectorAll("[data-action='filter']")
-//     .forEach((button) => button.addEventListener("click", selectFilter));
-// }
+function selectedSorting(event) {
+  //checks what option is clicked
+  sortThis = event;
+  console.log(`Use this ${sortThis}`);
+  //sortList(sortThis);
+  buildList();
+}
 
-//good damn filter still not working....
+function sortList(sortedList) {
+  //based on what is clicked, calls the matching function
+  //let sortedList = allStudents (the array);
+
+  if (sortThis === "firstnamea-z") {
+    sortedList = sortedList.sort(sortThisFirstnameAZ);
+  } else if (sortThis === "firstnamez-a") {
+    sortedList = sortedList.sort(sortThisFirstnameZA);
+  } else if (sortThis === "lastnamea-z") {
+    sortedList = sortedList.sort(sortThisLastnameAZ);
+  } else if (sortThis === "lastnamez-a") {
+    sortedList = sortedList.sort(sortThisLastnameZA);
+  } else if (sortThis === "housea-z") {
+    sortedList = sortedList.sort(sortThisHouseAZ);
+  } else if (sortThis === "housez-a") {
+    sortedList = sortedList.sort(sortThisHouseZA);
+  }
+
+  return sortedList;
+}
+
+//sorts by firstName a-z
+function sortThisFirstnameAZ(firstnameA, firstnameB) {
+  if (firstnameA.firstName < firstnameB.firstName) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+
+//sorts by firstName z-a
+function sortThisFirstnameZA(firstnameA, firstnameB) {
+  if (firstnameA.firstName < firstnameB.firstName) {
+    return 1;
+  } else {
+    return -1;
+  }
+}
+
+//sorts by lastName a-z
+function sortThisLastnameAZ(lastnameA, lastnameB) {
+  if (lastnameA.lastName < lastnameB.lastName) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+
+//sorts by lastName z-a
+function sortThisLastnameZA(lastnameA, lastnameB) {
+  if (lastnameA.lastName < lastnameB.lastName) {
+    return 1;
+  } else {
+    return -1;
+  }
+}
+
+//sorts by house a-z
+function sortThisHouseAZ(houseA, houseB) {
+  if (houseA.house < houseB.house) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+
+//sorts by house z-a
+function sortThisHouseZA(houseA, houseB) {
+  if (houseA.house < houseB.house) {
+    return 1;
+  } else {
+    return -1;
+  }
+}
+
+// virker fnadme nu
+function buildList() {
+  let currentList = filterStudents(allStudents);
+  currentList = sortList(currentList);
+
+  displayList(currentList);
+}
+
+//good damn filter still not working....fixed it wuhuu
 
 // her bliver hver template fyldt ud på den ønskede måde ved hjælp af strings
 
