@@ -12,29 +12,138 @@ const StudentTemplate = {
   image: "",
 };
 
+// used for filter studetns
+let allStudents = [];
+let filter;
+let filteredStudents = [];
+
+let filterButtons;
 window.addEventListener("DOMContentLoaded", init);
 
+//
+
+//henta data fra json og adder evetlistner
 async function init() {
   console.log("init her");
+
+  filterButtons = document.querySelectorAll(`[data-action="filter"]`);
+
+  filterButtons.forEach((filterbutton) => {
+    filterbutton.addEventListener("click", clickFilterButton);
+  });
 
   studentList.studentObjects = [];
   studentList.studentJSON = [];
   await loadJSON();
+  // makebuttons();
 }
 
 async function loadJSON() {
   console.log("json her");
 
   const JSONData = await fetch(url);
-  studentList.studentJSON = await JSONData.json();
+  //studentList.studentJSON = await JSONData.json();
+  const studentJSON = await JSONData.json();
 
-  console.log(studentList.studentJSON);
-  prepareObjects();
+  //console.log(studentList.studentJSON);
+  prepareObjects(studentJSON);
 }
 
-function prepareObjects() {
+// make good damn filter work
+
+function clickFilterButton(filterButton) {
+  console.log("filterClicked right here ");
+
+  filter = filterButton.target.dataset.filter;
+
+  const filteredStudents = filterStudents();
+
+  displayList(filteredStudents);
+}
+
+function isSlytherin(student) {
+  console.log("isSlytherin");
+  if (student.house === "Slytherin") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function isHufflepuff(student) {
+  console.log("isHufflepuff");
+  if (student.house === "Hufflepuff") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function isGryffindor(student) {
+  console.log("isGryffindor");
+  if (student.house === "Gryffindor") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function isRavenclaw(student) {
+  console.log("isRavenclaw");
+  if (student.house === "Ravenclaw") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function isAll(student) {
+  console.log("isAll");
+  if (student) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function filterStudents() {
+  console.log("Filtering My Students by: ", filter);
+
+  filteredStudents = [];
+
+  if (filter === "slytherin") {
+    filteredStudents = allStudents.filter(isSlytherin);
+  } else if (filter === "ravenclaw") {
+    filteredStudents = allStudents.filter(isRavenclaw);
+  } else if (filter === "hufflepuff") {
+    filteredStudents = allStudents.filter(isHufflepuff);
+  } else if (filter === "gryffindor") {
+    filteredStudents = allStudents.filter(isGryffindor);
+  } else {
+    filteredStudents = allStudents.filter(isAll);
+  }
+
+  return filteredStudents;
+}
+
+// function makebuttons() {
+//   console.log("ready");
+//   document
+//     .querySelectorAll("[data-action='filter']")
+//     .forEach((button) => button.addEventListener("click", selectFilter));
+// }
+
+//good damn filter still not working....
+
+// her bliver hver template fyldt ud på den ønskede måde ved hjælp af strings
+
+function prepareObjects(JSONData) {
   console.log("prepare here");
-  studentList.studentJSON.forEach((jsonObject) => {
+
+  // filteredStudents = allStudents;
+  // displayList(allStudents);
+
+  JSONData.forEach((jsonObject) => {
     const student = Object.create(studentList);
     let navn = jsonObject.fullname.toLowerCase().trim();
     let delNavn = navn.split(" ");
@@ -58,16 +167,12 @@ function prepareObjects() {
         .substring(navn.indexOf(" "), navn.lastIndexOf(" "))
         .trim()
         .substring(1);
-    // student.middleName = navn.substring(firstSpace, lastSpace);
 
     //lastname
 
     let lastName = navn.substring(lastSpace).trim();
     student.lastName =
       lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
-    // student.lastName = navn.substring(lastSpace);
-
-    // student.lastName = delNavn[0].substring(2, 3).lastIndexOf(" ");
 
     // nickname
 
@@ -94,21 +199,25 @@ function prepareObjects() {
         student.lastName.toLowerCase() + "_" + delNavn[0].toLowerCase();
     }
 
-    console.log(student.lastName);
-    studentList.studentObjects.push(student);
+    //console.log(student.lastName);
+    allStudents.push(student);
 
     if (navn[0] == " ") {
       navn.shift();
     }
   });
 
-  displayList();
+  displayList(allStudents);
 }
 
-function displayList() {
+// her vises de forskellige studerende inde i deres små hygge objecter lol
+
+function displayList(displayStudents) {
   // clear the list
   const studentListShow = document.querySelector("#list");
-  studentList.studentObjects.forEach((student) => {
+  studentListShow.textContent = "";
+
+  displayStudents.forEach((student) => {
     const template = document.querySelector("#student");
     let klon = template.cloneNode(true).content;
 

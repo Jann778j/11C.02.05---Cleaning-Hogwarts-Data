@@ -4,11 +4,69 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Document</title>
   </head>
   <body>
     <main>
       <h1>student list</h1>
+
+      <div id="filter_wrapper">
+        <div id="filterbuttons">
+          <button class="filter" data-action="filter" data-filter="all">
+            All
+          </button>
+          <button
+            id="Gryffindor"
+            class="filter"
+            data-action="filter"
+            data-filter="gryffindor"
+          >
+            Gryffindor
+          </button>
+          <button
+            id="Hufflepuff"
+            class="filter"
+            data-action="filter"
+            data-filter="hufflepuff"
+          >
+            Hufflepuff
+          </button>
+          <button
+            id="Ravenclaw"
+            class="filter"
+            data-action="filter"
+            data-filter="ravenclaw"
+          >
+            Ravenclaw
+          </button>
+          <button
+            id="Slytherin"
+            class="filter"
+            data-action="filter"
+            data-filter="slytherin"
+          >
+            Slytherin
+          </button>
+          <button
+            id="unexpelled"
+            class="filter"
+            data-action="filter"
+            data-filter="unexpelled"
+          >
+            Attending
+          </button>
+          <button
+            id="expelled"
+            class="filter"
+            data-action="filter"
+            data-filter="expelled"
+          >
+            Expelled
+          </button>
+          <!-- <button class="filter" data-action="filter" data-filter="squad">Squad</button> -->
+        </div>
+      </div>
 
       <ul id="list"></ul>
       <!-- <thead>
@@ -20,11 +78,11 @@
           <th>image</th>
           <th>house</th>
         </tr>
-      </thead>
+      </thead> -->
       <tbody>
-         animal template will be copied and inserted here -->
-      <!-- </tbody>
-    </table> -->
+        
+      </tbody>
+    </table>
     </main>
 
     <script src="data.js"></script>
@@ -44,6 +102,10 @@
       <p class="lastName">LASTNAME</p>
       <p class="nickName">NICKNAME</p>
       <p class="house">HOUSE</p>
+       <tbody>
+        
+      </tbody>
     </li>
+     
   </template>
 </html>

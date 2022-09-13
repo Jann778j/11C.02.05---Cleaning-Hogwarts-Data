@@ -1,0 +1,57 @@
+ * {
+     box-sizing: border-box;
+     padding: 0;
+     margin: 0;
+ }
+
+#list{
+    display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 30px;
+        margin-left: 20%;
+        margin-right: 20%;
+ }
+
+ #filterbuttons {
+
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+
+ }
+
+ #filter_wrapper {
+    margin: 30px;
+   
+ }
+
+ h1 {
+    justify-content: center;
+    display: flex;
+ }
+ p {
+    
+ }
+
+ .image { 
+    
+ }
+
+
+ li{
+    border: 1px solid black;
+    border-radius: 10px;
+    list-style: none;
+    padding: 20px;
+    
+
+   
+ }
+
+ button{
+    border: 2px solid black;
+    padding: 7px;
+    border-radius: 10px;
+    background-color:antiquewhite;
+    width: 100%;
+ }
