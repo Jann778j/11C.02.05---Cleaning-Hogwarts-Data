@@ -1,6 +1,8 @@
 "use strict";
 
 const url = "https://petlatkea.dk/2021/hogwarts/students.json";
+const bloodstatuslink = "https://petlatkea.dk/2021/hogwarts/families.json";
+
 const studentList = {};
 //template over hvad objecter skal indeholde
 const StudentTemplate = {
@@ -22,6 +24,8 @@ let filterButtons;
 let sortThis = "sorting";
 
 window.addEventListener("DOMContentLoaded", init);
+
+let bloodStatus;
 
 //==========================used for filter ==================================
 
@@ -59,7 +63,6 @@ async function loadJSON() {
   //studentList.studentJSON = await JSONData.json();
   const studentJSON = await JSONData.json();
 
-  //console.log(studentList.studentJSON);
   prepareObjects(studentJSON);
 }
 
@@ -340,6 +343,9 @@ function prepareObjects(JSONData) {
 
   displayList(allStudents);
 }
+
+//===================blod status her============================================
+
 //======================================vis objecter her =============================================
 // her vises de forskellige studerende inde i deres små hygge objecter lol
 
@@ -372,12 +378,52 @@ function displayList(displayStudents) {
       ".nickName"
     ).textContent = `nickname: ${student.nickName}`;
 
+    // udskriver gender
+
+    klon.querySelector(".gender").textContent = `gender: ${student.gender}`;
+
     // udskriver house
     klon.querySelector(".house").textContent = `house: ${student.house}`;
 
     //nogle billeder kommer frem andre gøre ikke??? - 3 billeder mangler ??
     klon.querySelector(".image").src = `images/${student.image}.png`;
 
+    klon
+      .querySelector("li")
+      .addEventListener("click", () => showDetails(student));
     studentListShow.appendChild(klon);
   });
+
+  //===========================popup lyfeeeee================================
+  function showDetails(student) {
+    console.log("clicked", student);
+
+    const popup = document.querySelector("#popup");
+    popup.style.display = "block";
+
+    popup.querySelector(
+      ".firstName"
+    ).textContent = `firstname: ${student.firstName}`;
+
+    // popup.querySelector(".middleName").textContent = `${student.middleName}`;
+
+    // popup.querySelector(
+    //   ".lastName"
+    // ).textContent = `lastname: ${student.lastName}`;
+
+    popup.querySelector(
+      ".nickName"
+    ).textContent = `nickname: ${student.nickName}`;
+
+    popup.querySelector(".gender").textContent = `gender: ${student.gender}`;
+
+    popup.querySelector(".house").textContent = `house: ${student.house}`;
+
+    popup.querySelector(".image").src = `images/${student.image}.png`;
+
+    document
+      .querySelector("#luk")
+      .addEventListener("click", () => (popup.style.display = "none"));
+    popup.addEventListener("click", () => (popup.style.display = "none"));
+  }
 }
