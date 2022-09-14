@@ -25,11 +25,35 @@
     display: flex;
     padding: 20px;
     margin: 20px;
-    border: 3px solid black;
+    border: 2px solid black;
     border-radius: 10px;
     background-color: antiquewhite;
  }
 
+#searchfield {
+    display: flex;
+  
+        justify-content: center;
+        margin: 10px;
+       
+ }
+
+ .search{
+    border: 2px solid black;
+        border-radius: 10px;
+        background-color: antiquewhite;
+        padding:5px;
+ }
+
+
+
+ .numberofstudentsshown {
+    display: flex;
+        justify-content: center;
+        margin: 20px;
+       
+            
+ }
  .sorter {
     display: flex;
 justify-content: center;

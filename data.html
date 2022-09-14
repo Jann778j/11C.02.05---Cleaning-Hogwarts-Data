@@ -64,7 +64,11 @@
           >
             Expelled
           </button>
-          <!-- <button class="filter" data-action="filter" data-filter="squad">Squad</button> -->
+      
+          
+          <!-- ===================================== -->
+
+        
         </div >
         <div class="sorter">
  <select name="sortingList" id="sortingList">
@@ -80,34 +84,26 @@
 
       </div>
 
+
+         <div id="searchfield">
+        <input class="search" type="search" placeholder="search here...."/>
+      </div>
+
+          <div>
+      
+      <div class="numberofstudentsshown"></div>
+    </div>
+
+
+
       <ul id="list"></ul>
-      <!-- <thead>
-        <tr>
-          <th>first name</th>
-          <th>middle name</th>
-          <th>last name</th>
-          <th>nick name</th>
-          <th>image</th>
-          <th>house</th>
-        </tr>
-      </thead> -->
       <tbody>
-        
       </tbody>
     </table>
     </main>
 
-    <script src="data.js"></script>
-  </body>
-
-  <template id="student">
+      <template id="student">
     <li>
-      <!-- <td data-field="firstname">first name</td>
-        <td data-field="middlename">middle name</td>
-        <td data-field="lastname">last name</td>
-        <td data-field="nickname">nick name</td>
-        <td data-field="image">image</td>
-        <td data-field="house">house</td> -->
       <img class="image" src="" alt="" />
       <p class="firstName"></p>
       <p class="middleName">MIDDLENAME</p>
@@ -118,6 +114,28 @@
         
       </tbody>
     </li>
-     
   </template>
+
+  <!-- her laver jeg popup -->
+
+  <section id="popup">
+<button id="closebutton">X</button>
+<div id="studentdetails">
+  <img src="" alt="">
+  <h2></h2>
+  <p>house:</p>
+  <p>gender:</p>
+  <p>blod status:</p>
+
+
+  <p class="prefect"></p>
+  <p class="expelled"></p>
+
+</div>
+  </section>
+
+    <script src="data.js"></script>
+  </body>
+
+
 </html>

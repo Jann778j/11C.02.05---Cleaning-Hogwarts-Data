@@ -20,7 +20,14 @@ let filteredStudents = [];
 let filterButtons;
 
 let sortThis = "sorting";
+
 window.addEventListener("DOMContentLoaded", init);
+
+//==========================used for filter ==================================
+
+const searchField = document.querySelector(".search");
+searchField.addEventListener("input", initSearch);
+let showNumberOfStudent = document.querySelector(".numberofstudentsshown");
 
 //======================her starter vi rigtigt hæ====================================
 
@@ -54,6 +61,27 @@ async function loadJSON() {
 
   //console.log(studentList.studentJSON);
   prepareObjects(studentJSON);
+}
+
+//===================================search function her wuhu============================
+
+//serach function made here
+function initSearch(event) {
+  console.log("im here");
+  let searchStudentList = allStudents.filter((student) => {
+    let name = "";
+    if (student.lastName === null) {
+      name = student.firstName;
+    } else {
+      name = student.firstName + " " + student.lastName;
+    }
+    return name.toLowerCase().includes(event.target.value);
+  });
+
+  // this will show number og student in the search
+
+  showNumberOfStudent.textContent = `number of students: ${searchStudentList.length}`;
+  displayList(searchStudentList);
 }
 
 //===========================================filter her ==========================================
