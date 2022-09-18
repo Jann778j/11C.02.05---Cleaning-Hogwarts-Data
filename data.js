@@ -1,7 +1,7 @@
 "use strict";
 
 const url = "https://petlatkea.dk/2021/hogwarts/students.json";
-const bloodstatuslink = "https://petlatkea.dk/2021/hogwarts/families.json";
+const bloodUrl = "https://petlatkea.dk/2021/hogwarts/families.json";
 
 const studentList = {};
 //template over hvad objecter skal indeholde
@@ -12,6 +12,7 @@ const StudentTemplate = {
   nickName: "",
   house: "",
   image: "",
+  blood: "",
 };
 
 // used for filter studetns
@@ -308,6 +309,22 @@ function prepareObjects(JSONData) {
     student.lastName =
       lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
 
+    //Registering hyphen
+    let hyphen = student.lastName.indexOf("-");
+
+    if (hyphen == -1) {
+      student.lastName =
+        student.lastName.substring(0, 1).toUpperCase() +
+        student.lastName.substring(1).toLowerCase();
+    } else {
+      student.lastName =
+        //First part of lastname being cleansed
+        student.lastName.substring(0, 1).toUpperCase() +
+        student.lastName.substring(1, hyphen).toLowerCase() +
+        //Last part of lastname being cleansed
+        student.lastName.substring(hyphen, hyphen + 2).toUpperCase() +
+        student.lastName.substring(hyphen + 2).toLowerCase();
+    }
     // nickname
 
     if (navn.includes(`"`)) {
@@ -318,6 +335,10 @@ function prepareObjects(JSONData) {
       student.nickName = nickName[0] + nickName.substring(1).toLowerCase();
       student.middleName = "";
     }
+
+    //Gender
+    let gender = jsonObject.gender.trim().toLowerCase();
+    student.gender = gender.substring(0, 1).toUpperCase() + gender.substring(1);
 
     //house
     student.house = house.substring(0, 1).toUpperCase() + house.substring(1);
@@ -331,6 +352,32 @@ function prepareObjects(JSONData) {
     if (student.lastName == "Patil") {
       student.image =
         student.lastName.toLowerCase() + "_" + delNavn[0].toLowerCase();
+    } else if (hyphen) {
+      student.image =
+        student.lastName.substring(hyphen + 1).toLowerCase() +
+        `_${student.firstName.substring(0, 1).toLowerCase()}`;
+    }
+
+    //===================blod status her============================================
+
+    loadBloodJSON();
+
+    async function loadBloodJSON() {
+      const response = await fetch(bloodUrl);
+      const studentBloodJSON = await response.json();
+      student.bloodStatus = checkBloodStatus(studentBloodJSON);
+
+      checkBloodStatus(studentBloodJSON);
+    }
+
+    function checkBloodStatus(studentBloodJSON) {
+      if (studentBloodJSON.pure.includes(student.lastName) == true) {
+        return "Pureblood";
+      } else if (studentBloodJSON.half.includes(student.lastName) == true) {
+        return "Halfblood";
+      } else {
+        return "Muggle-born";
+      }
     }
 
     //console.log(student.lastName);
@@ -341,10 +388,9 @@ function prepareObjects(JSONData) {
     }
   });
 
+  // console.log(allStudents);
   displayList(allStudents);
 }
-
-//===================blod status her============================================
 
 //======================================vis objecter her =============================================
 // her vises de forskellige studerende inde i deres små hygge objecter lol
@@ -358,29 +404,34 @@ function displayList(displayStudents) {
     const template = document.querySelector("#student");
     let klon = template.cloneNode(true).content;
 
-    // udsriver fristname
+    //navne der vises på forsiden
+
     klon.querySelector(
       ".firstName"
-    ).textContent = `firstname: ${student.firstName}`;
+    ).textContent = `${student.firstName} ${student.middleName} ${student.lastName}`;
+    // udsriver fristname
+    // klon.querySelector(
+    //   ".firstName"
+    // ).textContent = `firstname: ${student.firstName}`;
 
-    // udskriver lastname - leanne har kun e navn så hendes fornavn vises osm efternanv OGSÅ??!!
-    klon.querySelector(
-      ".lastName"
-    ).textContent = `lastname: ${student.lastName}`;
+    // // udskriver lastname - leanne har kun e navn så hendes fornavn vises osm efternanv OGSÅ??!!
+    // klon.querySelector(
+    //   ".lastName"
+    // ).textContent = `lastname: ${student.lastName}`;
 
-    // udskriver middlename
-    klon.querySelector(
-      ".middleName"
-    ).textContent = `middlename: ${student.middleName}`;
+    // // udskriver middlename
+    // klon.querySelector(
+    //   ".middleName"
+    // ).textContent = `middlename: ${student.middleName}`;
 
-    // udskriver nickname
-    klon.querySelector(
-      ".nickName"
-    ).textContent = `nickname: ${student.nickName}`;
+    // // udskriver nickname
+    // klon.querySelector(
+    //   ".nickName"
+    // ).textContent = `nickname: ${student.nickName}`;
 
-    // udskriver gender
+    // // udskriver gender
 
-    klon.querySelector(".gender").textContent = `gender: ${student.gender}`;
+    // klon.querySelector(".gender").textContent = `gender: ${student.gender}`;
 
     // udskriver house
     klon.querySelector(".house").textContent = `house: ${student.house}`;
@@ -405,11 +456,11 @@ function displayList(displayStudents) {
       ".firstName"
     ).textContent = `firstname: ${student.firstName}`;
 
-    // popup.querySelector(".middleName").textContent = `${student.middleName}`;
+    popup.querySelector(".middleName").textContent = `${student.middleName}`;
 
-    // popup.querySelector(
-    //   ".lastName"
-    // ).textContent = `lastname: ${student.lastName}`;
+    popup.querySelector(
+      ".lastName"
+    ).textContent = `lastname: ${student.lastName}`;
 
     popup.querySelector(
       ".nickName"
@@ -420,6 +471,8 @@ function displayList(displayStudents) {
     popup.querySelector(".house").textContent = `house: ${student.house}`;
 
     popup.querySelector(".image").src = `images/${student.image}.png`;
+
+    popup.querySelector(".blood").textContent = `blood: ${student.bloodStatus}`;
 
     document
       .querySelector("#luk")

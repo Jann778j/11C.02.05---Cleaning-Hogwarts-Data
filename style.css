@@ -4,127 +4,147 @@
      margin: 0;
  }
 
-#list{
-    display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 30px;
-        margin-left: 20%;
-        margin-right: 20%;
+ #list {
+     display: grid;
+     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+     gap: 30px;
+     margin-left: 20%;
+     margin-right: 20%;
  }
 
  #filterbuttons {
-    gap: 30px;
-    display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+     gap: 30px;
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: center;
+
+ }
+
+ p,
+ h2 {
+     font-family: nitti-typewriter-normal, sans-serif;
+     font-weight: 400;
+     font-style: normal;
 
  }
 
 
  select {
-    display: flex;
-    padding: 20px;
-    margin: 20px;
-    border: 2px solid black;
-    border-radius: 10px;
-    background-color: antiquewhite;
+     display: flex;
+     padding: 20px;
+     margin: 20px;
+     border: 2px solid black;
+     border-radius: 10px;
+     background-color: antiquewhite;
+     box-shadow: 4px 4px 4px;
+     font-family: carta-marina, sans-serif;
+     font-weight: 400;
+     font-style: normal;
  }
 
-#searchfield {
-    display: flex;
-  
-        justify-content: center;
-        margin: 10px;
-       
+ #searchfield {
+     display: flex;
+
+     justify-content: center;
+     margin: 10px;
+
  }
 
- .search{
-    border: 2px solid black;
-        border-radius: 10px;
-        background-color: antiquewhite;
-        padding:5px;
+ .search {
+     border: 2px solid black;
+     border-radius: 10px;
+     background-color: antiquewhite;
+     padding: 5px;
+     box-shadow: 4px 4px 4px;
+     font-family: carta-marina, sans-serif;
+     font-weight: 400;
+     font-style: normal;
  }
 
 
 
  .numberofstudentsshown {
-    display: flex;
-        justify-content: center;
-        margin: 20px;
-       
-            
+     display: flex;
+     justify-content: center;
+     margin: 20px;
+
+
  }
+
  .sorter {
-    display: flex;
-justify-content: center;
-    
+     display: flex;
+     justify-content: center;
+
  }
 
  #filter_wrapper {
-    margin: 30px;
-   
+     margin: 30px;
+
  }
 
  h1 {
-    justify-content: center;
-    display: flex;
- }
- p {
-    
- }
-
- .image { 
-    
+     justify-content: center;
+     display: flex;
+     font-family: romana-tw, serif;
+     font-weight: 400;
+     font-style: normal;
+     font-size: 4em;
+     margin-bottom: 60px;
  }
 
 
- li{
-    border: 1px solid black;
-    border-radius: 10px;
-    list-style: none;
-    padding: 20px;
-    
 
-   
+ li {
+     border: 1px solid black;
+     border-radius: 10px;
+     list-style: none;
+     padding: 20px;
+
+     box-shadow: 4px 4px 4px;
+
  }
 
- button{
-    border: 2px solid black;
-    padding: 7px;
-    border-radius: 10px;
-    background-color:antiquewhite;
-    /* width: 100%; */
-    width: 30%;
-        min-width: 100px;
-        max-width: 120px;
+ button {
+     border: 2px solid black;
+     padding: 7px;
+     border-radius: 10px;
+     background-color: antiquewhite;
+     /* width: 100%; */
+     width: 30%;
+     min-width: 100px;
+     max-width: 120px;
+     box-shadow: 4px 4px 4px;
+     font-family: carta-marina, sans-serif;
+     font-weight: 400;
+     font-style: normal;
  }
 
-  #popup {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 100vw;
-      background-color: rgba(75, 9, 9, 0.870);
-      z-index: 100;
-  }
+ #popup {
+     display: none;
+     position: fixed;
+     top: 0;
+     left: 0;
+     height: 100vh;
+     width: 100vw;
+     background-color: rgba(75, 9, 9, 0.870);
+     z-index: 100;
+ }
 
-  aside article {
-      background-color:antiquewhite;
-      width: 60%;
-      height: 80%;
-      margin: 4em auto;
-      border-radius: 3px;
-      text-align: center;
-     
-  }
+ aside article {
+     background-color: antiquewhite;
+     width: 60%;
+     height: 80%;
+     margin: 4em auto;
+     border-radius: 3px;
+     text-align: center;
 
-  #luk {
-    text-align: end;
-    padding: 20px;
-  }
+ }
 
-  #luk:hover{
-    cursor: pointer;
-  }
+ #luk {
+     text-align: end;
+     padding: 20px;
+ }
+
+ #luk:hover {
+     cursor: pointer;
+ }
