@@ -546,12 +546,16 @@ function visDetails(student) {
   //=========================================
 
   function clickExpell() {
-    if (student.expelled === true) {
-      student.expelled = false;
-      alert("student is alredey expelled!!!!");
-      // document.querySelector(".expelled").textContent = "Attending";
+    if (student.expelled === false) {
+      if (student.expelled === true) {
+        student.expelled = false;
+        // alert("student is alredey expelled!!!!");
+        // document.querySelector(".expelled").textContent = "Attending";
+      } else {
+        expellStudent(student);
+      }
     } else {
-      expellStudent(student);
+      alert("student is alredey expelled!!!!");
     }
     buildList();
   }
@@ -568,6 +572,7 @@ function visDetails(student) {
     } else {
       alert("this student is freaking expelled, and can NOT be prefect!!!!");
     }
+
     // document.querySelector("#popup .prefect").textContent = "student is a prefect";
 
     buildList();
