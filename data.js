@@ -13,33 +13,43 @@ const StudentTemplate = {
   house: "",
   image: "",
   blood: "",
+  expelled: false,
+  prefect: false,
+  squad: false,
 };
 
-// used for filter studetns
+//let for filtering
 let allStudents = [];
-let filter;
+let filter = "all";
 let filteredStudents = [];
-
 let filterButtons;
 
+//Expelled student list
+let explldStudArray = [];
+// let chosenStudent;
+let temp = document.querySelector("template");
+let container = document.querySelector("section");
+
+//let for sorting
 let sortThis = "sorting";
 
-window.addEventListener("DOMContentLoaded", init);
-
+//let for blood-status
 let bloodStatus;
+
+window.addEventListener("DOMContentLoaded", init);
 
 //==========================used for filter ==================================
 
 const searchField = document.querySelector(".search");
-searchField.addEventListener("input", initSearch);
-let showNumberOfStudent = document.querySelector(".numberofstudentsshown");
+searchField.addEventListener("input", startSearch);
+let showNumberOfStudentsShown = document.querySelector(
+  ".numberofstudentsshown"
+);
 
 //======================her starter vi rigtigt hæ====================================
 
 //henta data fra json og adder evetlistner
 async function init() {
-  console.log("init her");
-
   filterButtons = document.querySelectorAll(`[data-action="filter"]`);
 
   filterButtons.forEach((filterbutton) => {
@@ -47,7 +57,7 @@ async function init() {
 
     //looks after changes in the options under #sortingList
     document.querySelector("#sortingList").onchange = function () {
-      selectedSorting(this.value);
+      valgtSorting(this.value);
     };
   });
 
@@ -58,8 +68,6 @@ async function init() {
 }
 
 async function loadJSON() {
-  console.log("json her");
-
   const JSONData = await fetch(url);
   //studentList.studentJSON = await JSONData.json();
   const studentJSON = await JSONData.json();
@@ -70,8 +78,7 @@ async function loadJSON() {
 //===================================search function her wuhu============================
 
 //serach function made here
-function initSearch(event) {
-  console.log("im here");
+function startSearch(event) {
   let searchStudentList = allStudents.filter((student) => {
     let name = "";
     if (student.lastName === null) {
@@ -84,7 +91,7 @@ function initSearch(event) {
 
   // this will show number og student in the search
 
-  showNumberOfStudent.textContent = `number of students: ${searchStudentList.length}`;
+  showNumberOfStudentsShown.textContent = searchStudentList.length;
   displayList(searchStudentList);
 }
 
@@ -93,8 +100,6 @@ function initSearch(event) {
 // make good damn filter work
 
 function clickFilterButton(filterButton) {
-  console.log("filterClicked right here ");
-
   filter = filterButton.target.dataset.filter;
 
   const filteredStudents = filterStudents();
@@ -103,7 +108,6 @@ function clickFilterButton(filterButton) {
 }
 
 function ifStudentSlytherin(student) {
-  console.log("ifStudentSlytherin");
   if (student.house === "Slytherin") {
     return true;
   } else {
@@ -112,7 +116,6 @@ function ifStudentSlytherin(student) {
 }
 
 function ifStudentHufflepuff(student) {
-  console.log("ifStudentHufflepuff");
   if (student.house === "Hufflepuff") {
     return true;
   } else {
@@ -121,7 +124,6 @@ function ifStudentHufflepuff(student) {
 }
 
 function ifStudentGryffindor(student) {
-  console.log("ifStudentGryffindor");
   if (student.house === "Gryffindor") {
     return true;
   } else {
@@ -130,7 +132,6 @@ function ifStudentGryffindor(student) {
 }
 
 function ifStudentRavenclaw(student) {
-  console.log("ifStudentRavenclaw");
   if (student.house === "Ravenclaw") {
     return true;
   } else {
@@ -138,8 +139,14 @@ function ifStudentRavenclaw(student) {
   }
 }
 
+function isPrefect(student) {
+  if (student.prefect === true) {
+    return true;
+  }
+  return false;
+}
+
 function ifStudentAll(student) {
-  console.log("ifStudentAll");
   if (student) {
     return true;
   } else {
@@ -148,8 +155,6 @@ function ifStudentAll(student) {
 }
 
 function filterStudents() {
-  console.log("Filtering My Students by: ", filter);
-
   filteredStudents = [];
 
   if (filter === "slytherin") {
@@ -160,9 +165,16 @@ function filterStudents() {
     filteredStudents = allStudents.filter(ifStudentHufflepuff);
   } else if (filter === "gryffindor") {
     filteredStudents = allStudents.filter(ifStudentGryffindor);
+  } else if (filter === "prefect") {
+    filteredStudents = allStudents.filter(isPrefect);
+  } else if (filter === "expelled") {
+    //ret stort S her
+    filteredStudents = explldStudArray;
   } else {
     filteredStudents = allStudents.filter(ifStudentAll);
   }
+
+  showNumberOfStudentsShown.textContent = filteredStudents.length;
 
   return filteredStudents;
 }
@@ -174,10 +186,9 @@ function filterStudents() {
 
 //sorting start here!!
 
-function selectedSorting(event) {
+function valgtSorting(event) {
   //checks what option is clicked
   sortThis = event;
-  console.log(`Use this ${sortThis}`);
   //sortList(sortThis);
   buildList();
 }
@@ -273,8 +284,6 @@ function buildList() {
 //====================================== lav indholdet til objectet/templaten her=================================
 
 function prepareObjects(JSONData) {
-  console.log("prepare here");
-
   // filteredStudents = allStudents;
   // displayList(allStudents);
 
@@ -360,17 +369,17 @@ function prepareObjects(JSONData) {
 
     //===================blod status her============================================
 
-    loadBloodJSON();
+    loadStudentBloodJSON();
 
-    async function loadBloodJSON() {
+    async function loadStudentBloodJSON() {
       const response = await fetch(bloodUrl);
       const studentBloodJSON = await response.json();
-      student.bloodStatus = checkBloodStatus(studentBloodJSON);
+      student.bloodStatus = checkStudentBloodStatus(studentBloodJSON);
 
-      checkBloodStatus(studentBloodJSON);
+      checkStudentBloodStatus(studentBloodJSON);
     }
 
-    function checkBloodStatus(studentBloodJSON) {
+    function checkStudentBloodStatus(studentBloodJSON) {
       if (studentBloodJSON.pure.includes(student.lastName) == true) {
         return "Pureblood";
       } else if (studentBloodJSON.half.includes(student.lastName) == true) {
@@ -379,16 +388,16 @@ function prepareObjects(JSONData) {
         return "Muggle-born";
       }
     }
+    student.squad = false;
+    student.expelled = false;
+    student.prefect = false;
 
-    //console.log(student.lastName);
     allStudents.push(student);
 
-    if (navn[0] == " ") {
-      navn.shift();
-    }
+    // if (navn[0] == " ") {
+    //   navn.shift();
+    // }
   });
-
-  // console.log(allStudents);
   displayList(allStudents);
 }
 
@@ -439,44 +448,238 @@ function displayList(displayStudents) {
     //nogle billeder kommer frem andre gøre ikke??? - 3 billeder mangler ??
     klon.querySelector(".image").src = `images/${student.image}.png`;
 
+    if (student.expelled === true) {
+      student.squad = false;
+      student.prefect = false;
+    }
+
     klon
       .querySelector("li")
-      .addEventListener("click", () => showDetails(student));
+      .addEventListener("click", () => visDetails(student));
     studentListShow.appendChild(klon);
   });
+}
+//===========================popup lyfeeeee================================
+function visDetails(student) {
+  const popup = document.querySelector("#popup");
+  popup.style.display = "block";
 
-  //===========================popup lyfeeeee================================
-  function showDetails(student) {
-    console.log("clicked", student);
+  popup.querySelector(
+    ".firstName"
+  ).textContent = `firstname: ${student.firstName}`;
 
-    const popup = document.querySelector("#popup");
-    popup.style.display = "block";
+  popup.querySelector(".middleName").textContent = `${student.middleName}`;
 
-    popup.querySelector(
-      ".firstName"
-    ).textContent = `firstname: ${student.firstName}`;
+  popup.querySelector(
+    ".lastName"
+  ).textContent = `lastname: ${student.lastName}`;
 
-    popup.querySelector(".middleName").textContent = `${student.middleName}`;
+  popup.querySelector(
+    ".nickName"
+  ).textContent = `nickname: ${student.nickName}`;
 
-    popup.querySelector(
-      ".lastName"
-    ).textContent = `lastname: ${student.lastName}`;
+  popup.querySelector(".gender").textContent = `gender: ${student.gender}`;
 
-    popup.querySelector(
-      ".nickName"
-    ).textContent = `nickname: ${student.nickName}`;
+  popup.querySelector(".house").textContent = `house: ${student.house}`;
 
-    popup.querySelector(".gender").textContent = `gender: ${student.gender}`;
+  popup.querySelector(".image").src = `images/${student.image}.png`;
 
-    popup.querySelector(".house").textContent = `house: ${student.house}`;
+  popup.querySelector(".blood").textContent = `blood: ${student.bloodStatus}`;
 
-    popup.querySelector(".image").src = `images/${student.image}.png`;
+  if (student.prefect === true) {
+    popup.querySelector(".prefect").textContent = "is a prefect";
+  } else if (student.prefect == false) {
+    popup.querySelector(".prefect").textContent = "is not a prefect";
+  }
 
-    popup.querySelector(".blood").textContent = `blood: ${student.bloodStatus}`;
+  if (student.expelled === true) {
+    popup.querySelector(".expelled").textContent =
+      "this student is expelled!!!";
+  } else if (student.expelled === false) {
+    popup.querySelector(".expelled").textContent = "attending student";
+  }
 
+  if (student.squad === true) {
+    popup.querySelector(".squad").textContent =
+      "this student is added to the squad";
+  } else if (student.squad === false) {
+    popup.querySelector(".squad").textContent = "student not on the squad";
+  }
+
+  //expell, prefect and squad
+  popup.querySelector("#expellbutton").addEventListener("click", clickExpell);
+
+  popup.querySelector("#prefectbutton").addEventListener("click", clickprefect);
+  // ================squad made here ===========
+  popup.querySelector("#squadbutton").addEventListener("click", clickSquad);
+
+  //=========================================
+
+  function clickExpell() {
+    if (student.expelled === true) {
+      student.expelled = false;
+      alert("student is alredey expelled!!!!");
+      // document.querySelector(".expelled").textContent = "Attending";
+    } else {
+      expellStudent(student);
+    }
+    buildList();
+  }
+
+  function clickprefect() {
+    if (student.expelled === false) {
+      if (student.prefect === true) {
+        student.prefect = false;
+        // document.querySelector("#popup .prefect").textContent =
+        //   "student is not a prefect";
+      } else {
+        makeStudentPrefect(student);
+      }
+    } else {
+      alert("this student is freaking expelled, and can NOT be prefect!!!!");
+    }
+    // document.querySelector("#popup .prefect").textContent = "student is a prefect";
+
+    buildList();
+  }
+
+  function clickSquad() {
+    console.log("squad");
+    // if (student.squad == true) student.squad = false;
+    // {
+    if (student.expelled === false) {
+      if (
+        student.house === "Slytherin" ||
+        student.bloodStatus === "Pureblood"
+      ) {
+        makeSquad(student);
+      } else {
+        student.squad = false;
+        alert(
+          "This student is not cool enough to join the inquisitorial squad!"
+        );
+      }
+    } else {
+      alert(
+        "this student is expelled and can for sure nor be on the squad..!!"
+      );
+    }
+  }
+
+  document.querySelector("#popup").addEventListener("click", () => {
+    popup.style.display = "none";
+
+    popup
+      .querySelector("#expellbutton")
+      .removeEventListener("click", clickExpell);
+
+    popup
+      .querySelector("#prefectbutton")
+      .removeEventListener("click", clickprefect);
+    // ================squad made here ===========
+    popup
+      .querySelector("#squadbutton")
+      .removeEventListener("click", clickSquad);
+  });
+
+  // chosenStudent = student;
+}
+
+function expellStudent(chosenStudent) {
+  //removes expelled student form allStudArray list
+  console.log("chosenStudent", chosenStudent);
+  if (chosenStudent.expelled === false) {
+    allStudents.splice(allStudents.indexOf(chosenStudent), 1);
+    chosenStudent.expelled = true;
+
+    explldStudArray.push(chosenStudent);
+  }
+
+  buildList();
+}
+
+//=======================squad
+
+function makeSquad(chosenStudent) {
+  console.log("you are in sqaus");
+  chosenStudent.squad = true;
+}
+
+function removeSquad(chosenStudent) {
+  console.log("you are not in sqaus");
+  chosenStudent.squad = false;
+}
+
+function makeStudentPrefect(chosenStudent) {
+  const prefects = allStudents.filter((student) => student.prefect);
+
+  // const numberOfPrefects = prefects.length;
+  const other = prefects.filter(
+    (student) => student.house === chosenStudent.house
+  );
+  // .shift();
+
+  if (other.length >= 2) {
+    removeAorB(other[0], other[1]);
+  } else {
+    makePrefect(chosenStudent);
+  }
+
+  function removeAorB(otherA, otherB) {
+    document.querySelector("#remove_aorb").classList.remove("hide");
     document
-      .querySelector("#luk")
-      .addEventListener("click", () => (popup.style.display = "none"));
-    popup.addEventListener("click", () => (popup.style.display = "none"));
+      .querySelector("#remove_aorb .close")
+      .addEventListener("click", closeDialog);
+    document
+      .querySelector("#remove_aorb #removea")
+      .addEventListener("click", clickRemoveA);
+    document
+      .querySelector("#remove_aorb #removeb")
+      .addEventListener("click", clickRemoveB);
+
+    //Show names on buttons
+    document.querySelector("[data-field=prefectA]").textContent =
+      otherA.firstName;
+    document.querySelector("[data-field=prefectB]").textContent =
+      otherB.firstName;
+
+    function closeDialog() {
+      document.querySelector("#remove_aorb").classList.add("hide");
+      document
+        .querySelector("#remove_aorb .close")
+        .removeEventListener("click", closeDialog);
+      document
+        .querySelector("#remove_aorb #removea")
+        .removeEventListener("click", clickRemoveA);
+      document
+        .querySelector("#remove_aorb #removeb")
+        .removeEventListener("click", clickRemoveB);
+    }
+
+    function clickRemoveA() {
+      //if removeA:
+      removePrefect(otherA);
+      makePrefect(chosenStudent);
+      buildList();
+      closeDialog();
+    }
+
+    function clickRemoveB() {
+      //else - if removeB
+      removePrefect(otherB);
+      makePrefect(chosenStudent);
+      buildList();
+      closeDialog();
+    }
+    //Ask user to ignorre orr removie a orr b
+    //if ignoree - do nothing
+  }
+
+  function removePrefect(prefectStudent) {
+    prefectStudent.prefect = false;
+  }
+
+  function makePrefect(chosenStudent) {
+    chosenStudent.prefect = true;
   }
 }
