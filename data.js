@@ -464,6 +464,30 @@ function visDetails(student) {
   const popup = document.querySelector("#popup");
   popup.style.display = "block";
 
+  // house colors here
+
+  if (student.house == "Slytherin") {
+    popup.querySelector(".house_colors").style.backgroundColor = "#1a472a";
+    popup.querySelector(".house_colors").style.margin = "1em";
+  }
+
+  if (student.house == "Gryffindor") {
+    popup.querySelector(".house_colors").style.backgroundColor = "#740001";
+    popup.querySelector(".house_colors").style.margin = "1em";
+  }
+
+  if (student.house == "Ravenclaw") {
+    popup.querySelector(".house_colors").style.backgroundColor = "#0e1a40";
+    popup.querySelector(".house_colors").style.margin = "1em";
+  }
+
+  if (student.house == "Hufflepuff") {
+    popup.querySelector(".house_colors").style.backgroundColor = "#ecb939";
+    popup.querySelector(".house_colors").style.margin = "1em";
+  }
+
+  //====================================
+
   popup.querySelector(
     ".firstName"
   ).textContent = `firstname: ${student.firstName}`;
@@ -488,21 +512,27 @@ function visDetails(student) {
 
   if (student.prefect === true) {
     popup.querySelector(".prefect").textContent = "is a prefect";
+    popup.querySelector(".prefect").style.color = "green";
   } else if (student.prefect == false) {
+    popup.querySelector(".prefect").style.color = "grey";
     popup.querySelector(".prefect").textContent = "is not a prefect";
   }
 
   if (student.expelled === true) {
     popup.querySelector(".expelled").textContent =
       "this student is expelled!!!";
+    popup.querySelector(".expelled").style.color = "red";
   } else if (student.expelled === false) {
+    popup.querySelector(".expelled").style.color = "grey";
     popup.querySelector(".expelled").textContent = "attending student";
   }
 
   if (student.squad === true) {
     popup.querySelector(".squad").textContent =
       "this student is added to the squad";
+    popup.querySelector(".squad").style.color = "yellow";
   } else if (student.squad === false) {
+    popup.querySelector(".squad").style.color = "grey";
     popup.querySelector(".squad").textContent = "student not on the squad";
   }
 
