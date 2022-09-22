@@ -552,7 +552,14 @@ function visDetails(student) {
         student.house === "Slytherin" ||
         student.bloodStatus === "Pureblood"
       ) {
-        makeSquad(student);
+        if (student.squad === true) {
+          student.squad = false;
+        } else {
+          makeSquad(student);
+          // alert(
+          //   "This student is not cool enough to join the inquisitorial squad!"
+          // );
+        }
       } else {
         student.squad = false;
         alert(
