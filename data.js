@@ -36,6 +36,10 @@ let sortThis = "sorting";
 //let for blood-status
 let bloodStatus;
 
+//hacking
+
+let systemHacked = false;
+
 window.addEventListener("DOMContentLoaded", init);
 
 //==========================used for filter ==================================
@@ -59,6 +63,9 @@ async function init() {
     document.querySelector("#sortingList").onchange = function () {
       valgtSorting(this.value);
     };
+
+    //hacking
+    document.querySelector(".hacked").addEventListener("click", hackTheSystem);
   });
 
   studentList.studentObjects = [];
@@ -448,6 +455,14 @@ function displayList(displayStudents) {
     //nogle billeder kommer frem andre gøre ikke??? - 3 billeder mangler ??
     klon.querySelector(".image").src = `images/${student.image}.png`;
 
+    if (student.firstName === "Seamus") {
+      klon.querySelector(".image").src = "images/finnigan_s.png";
+    }
+
+    if (student.firstName === "Leanne") {
+      klon.querySelector(".image").src = "images/missing_studetns.png";
+    }
+
     if (student.expelled === true) {
       student.squad = false;
       student.prefect = false;
@@ -469,21 +484,25 @@ function visDetails(student) {
   if (student.house == "Slytherin") {
     popup.querySelector(".house_colors").style.backgroundColor = "#1a472a";
     popup.querySelector(".house_colors").style.margin = "1em";
+    popup.querySelector(".crest").src = "images/slytherin.png";
   }
 
   if (student.house == "Gryffindor") {
     popup.querySelector(".house_colors").style.backgroundColor = "#740001";
     popup.querySelector(".house_colors").style.margin = "1em";
+    popup.querySelector(".crest").src = "images/gryffindor.png";
   }
 
   if (student.house == "Ravenclaw") {
     popup.querySelector(".house_colors").style.backgroundColor = "#0e1a40";
     popup.querySelector(".house_colors").style.margin = "1em";
+    popup.querySelector(".crest").src = "images/ravenclaw.png";
   }
 
   if (student.house == "Hufflepuff") {
     popup.querySelector(".house_colors").style.backgroundColor = "#ecb939";
     popup.querySelector(".house_colors").style.margin = "1em";
+    popup.querySelector(".crest").src = "images/hufflepuff.png";
   }
 
   //====================================
@@ -519,18 +538,20 @@ function visDetails(student) {
   }
 
   if (student.expelled === true) {
+    // popup.querySelector("#expellbutton").remove();
     popup.querySelector(".expelled").textContent =
       "this student is expelled!!!";
     popup.querySelector(".expelled").style.color = "red";
   } else if (student.expelled === false) {
     popup.querySelector(".expelled").style.color = "grey";
     popup.querySelector(".expelled").textContent = "attending student";
+  } else {
   }
 
   if (student.squad === true) {
     popup.querySelector(".squad").textContent =
       "this student is added to the squad";
-    popup.querySelector(".squad").style.color = "yellow";
+    popup.querySelector(".squad").style.color = "#ecb939";
   } else if (student.squad === false) {
     popup.querySelector(".squad").style.color = "grey";
     popup.querySelector(".squad").textContent = "student not on the squad";
@@ -542,21 +563,25 @@ function visDetails(student) {
   popup.querySelector("#prefectbutton").addEventListener("click", clickprefect);
   // ================squad made here ===========
   popup.querySelector("#squadbutton").addEventListener("click", clickSquad);
-
   //=========================================
 
   function clickExpell() {
-    if (student.expelled === false) {
+    // if (student.expelled === true)
+    if (student.firstName === "Janne") {
+      student.expelled = false;
+      alert("this hacker cant be expelled hæhæhæ");
+    } else {
       if (student.expelled === true) {
-        student.expelled = false;
-        // alert("student is alredey expelled!!!!");
+        // student.expelled = false;
+        alert("student is alredey expelled!!!!");
         // document.querySelector(".expelled").textContent = "Attending";
+        // } else if (student.expelled === "impossible") {
+        //   alert("studetn is to good");
       } else {
         expellStudent(student);
       }
-    } else {
-      alert("student is alredey expelled!!!!");
     }
+
     buildList();
   }
 
@@ -572,7 +597,6 @@ function visDetails(student) {
     } else {
       alert("this student is freaking expelled, and can NOT be prefect!!!!");
     }
-
     // document.querySelector("#popup .prefect").textContent = "student is a prefect";
 
     buildList();
@@ -580,8 +604,18 @@ function visDetails(student) {
 
   function clickSquad() {
     console.log("squad");
-    // if (student.squad == true) student.squad = false;
-    // {
+
+    if (systemHacked === true) {
+      student.squad = true;
+      setTimeout(removeSquadHack, 3000);
+
+      function removeSquadHack(student) {
+        student.squad = false;
+        document.querySelector(
+          ".squad"
+        ).textContent = `squad: ${student.squad}`;
+      }
+    }
     if (student.expelled === false) {
       if (
         student.house === "Slytherin" ||
@@ -591,9 +625,6 @@ function visDetails(student) {
           student.squad = false;
         } else {
           makeSquad(student);
-          // alert(
-          //   "This student is not cool enough to join the inquisitorial squad!"
-          // );
         }
       } else {
         student.squad = false;
@@ -603,7 +634,7 @@ function visDetails(student) {
       }
     } else {
       alert(
-        "this student is expelled and can for sure nor be on the squad..!!"
+        "this student is expelled and can for sure NOT be on the squad..!!"
       );
     }
   }
@@ -633,7 +664,6 @@ function expellStudent(chosenStudent) {
   if (chosenStudent.expelled === false) {
     allStudents.splice(allStudents.indexOf(chosenStudent), 1);
     chosenStudent.expelled = true;
-
     explldStudArray.push(chosenStudent);
   }
 
@@ -725,3 +755,84 @@ function makeStudentPrefect(chosenStudent) {
     chosenStudent.prefect = true;
   }
 }
+
+// HACKING
+function hackTheSystem() {
+  if (systemHacked === false) {
+    console.log("System Hacked");
+    document
+      .querySelector(".hacked")
+      .removeEventListener("click", hackTheSystem);
+
+    const mig = Object.create(student);
+
+    mig.firstName = "Janne";
+    mig.lastName = "Hjuler-Jensen";
+    mig.middleName = "";
+    mig.nickName = "hackhackhacker";
+    mig.gender = "girl";
+    mig.house = "Gryffindor";
+    mig.image = "mig";
+    mig.bloodStatus = "muggle";
+    mig.prefect = true;
+    mig.expelled = false;
+    mig.squad = true;
+
+    hackBloodStatus();
+    console.log(mig);
+
+    //if you use push it ends up ind the buttom after the others
+    //if you use unshift it ends up in the top infront of the others
+    allStudents.push(mig);
+    buildList();
+
+    systemHacked = true;
+  } else {
+    alert("System is already hacked!");
+  }
+  setTimeout(function () {
+    alert("You have been hacked!");
+  }, 1000);
+}
+
+function hackBloodStatus() {
+  console.log("bloodhack");
+  allStudents.forEach((student) => {
+    if (student.bloodStatus === "muggle") {
+      student.bloodStatus = "pureblood";
+    } else if (student.bloodStatus === "halfblood") {
+      student.bloodStatus = "pureblood";
+    } else {
+      let bloodRandomNum = Math.floor(Math.random() * 3);
+      if (bloodRandomNum == 0) {
+        student.bloodStatus = "muggle";
+      } else if (bloodRandomNum == 1) {
+        student.bloodStatus = "halfblood";
+      } else {
+        student.bloodStatus = "pureblood";
+      }
+    }
+    student.squad = false;
+  });
+}
+
+// function addSquad() {
+//   console.log("addSquad");
+//   if (systemHacked === true) {
+//     setTimeout(function () {
+//       clickSquad();
+//     }, 1000);
+//   }
+//   allStudents[index].squad = true;
+//   // document.querySelector("#squadbutton").classList.add("clickedbutton");
+// }
+
+// function removeSquad() {
+//   // document.querySelector("#isbtn").classList.remove("clickedbutton");
+//   if (systemHacked === true) {
+//     setTimeout(function () {
+//       alert("The system is hacked, remember? You can't do that.. MUHAHA!");
+//     }, 100);
+//   }
+//   allStudents[index].squad = false;
+// }
