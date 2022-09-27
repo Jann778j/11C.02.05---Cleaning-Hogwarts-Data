@@ -605,17 +605,17 @@ function visDetails(student) {
   function clickSquad() {
     console.log("squad");
 
-    if (systemHacked === true) {
-      student.squad = true;
-      setTimeout(removeSquadHack, 3000);
+    // if (systemHacked === false) {
+    //   student.squad = true;
+    //   setTimeout(removeSquad, 1000);
+    //   function removeSquad(chosenStudent) {
+    //     chosenStudent.squad = false;
+    //     popup.querySelector(
+    //       ".squadButton"
+    //     ).textContent = `squad: ${student.squad}`;
+    //   }
+    // }
 
-      function removeSquadHack(student) {
-        student.squad = false;
-        document.querySelector(
-          ".squad"
-        ).textContent = `squad: ${student.squad}`;
-      }
-    }
     if (student.expelled === false) {
       if (
         student.house === "Slytherin" ||
@@ -758,6 +758,7 @@ function makeStudentPrefect(chosenStudent) {
 
 // HACKING
 function hackTheSystem() {
+  document.querySelector("body").style.background = "grey";
   if (systemHacked === false) {
     console.log("System Hacked");
     document
