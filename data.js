@@ -26,6 +26,7 @@ let filterButtons;
 
 //Expelled student list
 let explldStudArray = [];
+
 // let chosenStudent;
 let temp = document.querySelector("template");
 let container = document.querySelector("section");
@@ -42,7 +43,7 @@ let systemHacked = false;
 
 window.addEventListener("DOMContentLoaded", init);
 
-//==========================used for filter ==================================
+//==========================used for search==================================
 
 const searchField = document.querySelector(".search");
 searchField.addEventListener("input", startSearch);
@@ -71,7 +72,6 @@ async function init() {
   studentList.studentObjects = [];
   studentList.studentJSON = [];
   await loadJSON();
-  // makebuttons();
 }
 
 async function loadJSON() {
@@ -202,7 +202,7 @@ function valgtSorting(event) {
 
 function sortList(sortedList) {
   //based on what is clicked, calls the matching function
-  //let sortedList = allStudents (the array);
+  //let sortedList = allStudents - witch is the array of course;
 
   if (sortThis === "firstnamea-z") {
     sortedList = sortedList.sort(sortThisFirstnameAZ);
@@ -452,7 +452,6 @@ function displayList(displayStudents) {
     // udskriver house
     klon.querySelector(".house").textContent = `house: ${student.house}`;
 
-    //nogle billeder kommer frem andre gøre ikke??? - 3 billeder mangler ??
     klon.querySelector(".image").src = `images/${student.image}.png`;
 
     if (student.firstName === "Seamus") {
@@ -479,7 +478,7 @@ function visDetails(student) {
   const popup = document.querySelector("#popup");
   popup.style.display = "block";
 
-  // house colors here
+  // house colors  and crests here
 
   if (student.house == "Slytherin") {
     popup.querySelector(".house_colors").style.backgroundColor = "#1a472a";
@@ -789,10 +788,10 @@ function hackTheSystem() {
 
     systemHacked = true;
   } else {
-    alert("System is already hacked!");
+    alert("System!!! is!!! already!!! hacked!!!");
   }
   setTimeout(function () {
-    alert("You have been hacked!");
+    alert("!!!You have been hacked!!!");
   }, 1000);
 }
 
