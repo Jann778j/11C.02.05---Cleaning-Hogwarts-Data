@@ -458,8 +458,15 @@ function displayList(displayStudents) {
       klon.querySelector(".image").src = "images/finnigan_s.png";
     }
 
+    if (student.firstName === "Seamus") {
+      student.lastName = "Finnigan";
+    }
+
     if (student.firstName === "Leanne") {
       klon.querySelector(".image").src = "images/missing_studetns.png";
+    }
+    if (student.firstName === "Leanne") {
+      student.lastName = "";
     }
 
     if (student.expelled === true) {
@@ -603,20 +610,28 @@ function visDetails(student) {
   function clickSquad() {
     console.log("squad");
 
-    // if (systemHacked === true) {
-    //   clickSquad();
-    //   student.squad = true;
-    //   setTimeout(removeSquad, 3000);
-    //   function removeSquad(chosenStudent) {
-    //     chosenStudent.squad = false;
-    //   }
-    // }
     if (student.expelled === false) {
       if (
         student.house === "Slytherin" ||
         student.bloodStatus === "Pureblood"
       ) {
-        if (student.squad === true) {
+        if (systemHacked === true) {
+          student.squad = true;
+
+          setTimeout(removeSquadHack, 2000);
+          popup.querySelector(".squad").textContent =
+            "student is member of squad";
+          popup.querySelector(".squad").style.color = "#ecb939";
+
+          function removeSquadHack() {
+            student.squad = false;
+
+            popup.querySelector(".squad").style.color = "grey";
+            popup.querySelector(".squad").textContent =
+              "student not on the squad";
+            alert("HæHÆhæ you can´t add students to squad anymore muhuhu");
+          }
+        } else if (student.squad === true) {
           student.squad = false;
         } else {
           makeSquad(student);
@@ -755,38 +770,34 @@ function makeStudentPrefect(chosenStudent) {
 function hackTheSystem() {
   document.querySelector("html").style.background = "grey";
 
-  if (systemHacked === false) {
-    console.log("System Hacked");
-    document
-      .querySelector(".hacked")
-      .removeEventListener("click", hackTheSystem);
+  systemHacked = true;
+  console.log("System Hacked");
+  document.querySelector(".hacked").removeEventListener("click", hackTheSystem);
 
-    const mig = Object.create(student);
+  const mig = Object.create(student);
 
-    mig.firstName = "Janne";
-    mig.lastName = "Hjuler-Jensen";
-    mig.middleName = "";
-    mig.nickName = "hackhackhacker";
-    mig.gender = "girl";
-    mig.house = "Gryffindor";
-    mig.image = "mig";
-    mig.bloodStatus = "muggle";
-    mig.prefect = true;
-    mig.expelled = false;
-    mig.squad = true;
+  mig.firstName = "Janne";
+  mig.lastName = "Hjuler-Jensen";
+  mig.middleName = "";
+  mig.nickName = "hackhackhacker";
+  mig.gender = "girl";
+  mig.house = "Gryffindor";
+  mig.image = "mig";
+  mig.bloodStatus = "muggle";
+  mig.prefect = true;
+  mig.expelled = false;
+  mig.squad = true;
 
-    hackBloodStatus();
-    console.log(mig);
+  hackBloodStatus();
+  console.log(mig);
 
-    //if you use push it ends up ind the buttom after the others
-    //if you use unshift it ends up in the top infront of the others
-    allStudents.push(mig);
-    buildList();
+  //if you use push it ends up ind the buttom after the others
+  //if you use unshift it ends up in the top infront of the others
+  allStudents.push(mig);
+  buildList();
 
-    systemHacked = true;
-  } else {
-    alert("System!!! is!!! already!!! hacked!!!");
-  }
+  // systemHacked = true;
+
   setTimeout(function () {
     alert("!!!You have been hacked!!!");
   }, 1000);
@@ -812,24 +823,3 @@ function hackBloodStatus() {
     student.squad = false;
   });
 }
-
-// function addSquad() {
-//   console.log("addSquad");
-//   if (systemHacked === true) {
-//     setTimeout(function () {
-//       clickSquad();
-//     }, 1000);
-//   }
-//   allStudents[index].squad = true;
-//   // document.querySelector("#squadbutton").classList.add("clickedbutton");
-// }
-
-// function removeSquad() {
-//   // document.querySelector("#isbtn").classList.remove("clickedbutton");
-//   if (systemHacked === true) {
-//     setTimeout(function () {
-//       alert("The system is hacked, remember? You can't do that.. MUHAHA!");
-//     }, 100);
-//   }
-//   allStudents[index].squad = false;
-// }
