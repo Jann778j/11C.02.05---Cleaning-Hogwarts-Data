@@ -768,7 +768,7 @@ function makeStudentPrefect(chosenStudent) {
 
 // HACKING
 function hackTheSystem() {
-  document.querySelector("html").style.background = "grey";
+  document.querySelector("html").style.background = "gray";
 
   systemHacked = true;
   console.log("System Hacked");
