@@ -392,7 +392,7 @@ function prepareObjects(JSONData) {
       } else if (studentBloodJSON.half.includes(student.lastName) == true) {
         return "Halfblood";
       } else {
-        return "Muggle-born";
+        return "Muggle";
       }
     }
     student.squad = false;
@@ -529,11 +529,11 @@ function visDetails(student) {
   popup.querySelector(".blood").textContent = `blood: ${student.bloodStatus}`;
 
   if (student.prefect === true) {
-    popup.querySelector(".prefect").textContent = "is a prefect";
+    popup.querySelector(".prefect").textContent = "student is a prefect";
     popup.querySelector(".prefect").style.color = "green";
   } else if (student.prefect == false) {
     popup.querySelector(".prefect").style.color = "grey";
-    popup.querySelector(".prefect").textContent = "is not a prefect";
+    popup.querySelector(".prefect").textContent = "student is not a prefect";
   }
 
   if (student.expelled === true) {
@@ -548,8 +548,7 @@ function visDetails(student) {
   }
 
   if (student.squad === true) {
-    popup.querySelector(".squad").textContent =
-      "this student is added to the squad";
+    popup.querySelector(".squad").textContent = "student is member of squad";
     popup.querySelector(".squad").style.color = "#ecb939";
   } else if (student.squad === false) {
     popup.querySelector(".squad").style.color = "grey";
@@ -604,17 +603,14 @@ function visDetails(student) {
   function clickSquad() {
     console.log("squad");
 
-    // if (systemHacked === false) {
+    // if (systemHacked === true) {
+    //   clickSquad();
     //   student.squad = true;
-    //   setTimeout(removeSquad, 1000);
+    //   setTimeout(removeSquad, 3000);
     //   function removeSquad(chosenStudent) {
     //     chosenStudent.squad = false;
-    //     popup.querySelector(
-    //       ".squadButton"
-    //     ).textContent = `squad: ${student.squad}`;
     //   }
     // }
-
     if (student.expelled === false) {
       if (
         student.house === "Slytherin" ||
@@ -757,7 +753,8 @@ function makeStudentPrefect(chosenStudent) {
 
 // HACKING
 function hackTheSystem() {
-  document.querySelector("body").style.background = "grey";
+  document.querySelector("html").style.background = "grey";
+
   if (systemHacked === false) {
     console.log("System Hacked");
     document
@@ -798,18 +795,18 @@ function hackTheSystem() {
 function hackBloodStatus() {
   console.log("bloodhack");
   allStudents.forEach((student) => {
-    if (student.bloodStatus === "muggle") {
-      student.bloodStatus = "pureblood";
-    } else if (student.bloodStatus === "halfblood") {
-      student.bloodStatus = "pureblood";
+    if (student.bloodStatus === "Muggle") {
+      student.bloodStatus = "Pureblood";
+    } else if (student.bloodStatus === "Halfblood") {
+      student.bloodStatus = "Pureblood";
     } else {
       let bloodRandomNum = Math.floor(Math.random() * 3);
       if (bloodRandomNum == 0) {
-        student.bloodStatus = "muggle";
+        student.bloodStatus = "Muggle";
       } else if (bloodRandomNum == 1) {
-        student.bloodStatus = "halfblood";
+        student.bloodStatus = "Halfblood";
       } else {
-        student.bloodStatus = "pureblood";
+        student.bloodStatus = "Pureblood";
       }
     }
     student.squad = false;
